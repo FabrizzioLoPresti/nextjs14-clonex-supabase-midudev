@@ -21,7 +21,7 @@ const AuthButtonClient = ({ session }: Props) => {
     await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
-        redirectTo: `${process.env.NEXT_BACKEND_URL}/auth/callback`,
+        redirectTo: `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/callback`,
       },
     });
   };
