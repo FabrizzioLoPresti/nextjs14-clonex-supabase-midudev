@@ -4,8 +4,8 @@ type Props = {};
 
 export default function LoadingPage({}: Props) {
   return (
-    <section>
-      <h1 className="font-bold text-3xl text-center">Loading...</h1>
+    <section className="mx-auto max-w-7xl">
+      <h1 className="text-2xl text-center font-bold">Loading...</h1>
     </section>
   );
 }

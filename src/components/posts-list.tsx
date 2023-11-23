@@ -1,14 +1,31 @@
 import { Post } from '@/types/database';
 import PostCard from './post-card';
+import { cookies } from 'next/headers';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
 
-type Props = {
-  posts: Post[];
-};
+type Props = {};
 
-const PostsList = ({ posts }: Props) => {
+const PostsList = async ({}: Props) => {
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return cookies().get(name)?.value;
+        },
+      },
+    },
+  );
+
+  const { data: posts, error } = await supabase
+    .from('posts')
+    .select('*, user:users(name, user_name, avatar_url)')
+    .order('created_at', { ascending: false });
+
   return (
     <>
-      {posts?.map((post) => (
+      {posts?.map((post: Post) => (
         <PostCard
           key={post.id}
           name={post.user.name}
